@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{#    <style>#}
+{#    .{{city.name}}{#}
+{#    display:contents;#}
+{#    }#}
+{#    </style>#}
+    <div style="position: relative">
+<svg style="position: absolute;right: 0; top: 500px;"  width="232" height="310" viewBox="0 0 232 310" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle opacity="0.5" cx="155" cy="155" r="140" stroke="#DFE9FD" stroke-width="30"/>
+</svg>
+<div class="container">
+  <div class="blocOne">
+      <div class="row">
+      <div class="col-sm-11">
+          <h1><a>{{branch_analys.name}}</a></h1>
+          <h2 class="h2_not_style">{{branch_analys.analys.synonyms_rus}}<br>
+                                   {{branch_analys.analys.synonyms_eng}}</h2>
+      </div>
+    </div>
+
+  <h2 style="margin-top: 100px">Сравнение цен</h2>
+
+  <table class="table" style="text-align: center; position: relative">
+    <thead>
+      <tr style="font-weight: 600;font-size: 12px">
+        <th scope="col"></th>
+        <th scope="col">Цена в офисе</th>
+        <th scope="col">Цена у нас</th>
+        <th scope="col">Готовность</th>
+        <th scope="col">Приобрести</th>
+      </tr>
+    </thead>
+    <tbody style="font-size: 18px">
+      {% for analys in analys_list %}
+      <tr>
+          <th style="text-align: left; max-width: 200px" scope="row">
+              <h3 class="h3_not_style">{{analys.labaratory_branch.labaratory.name}}</h3></th>
+        <td>{{analys.lab_price}}</td>
+        <td>
+          {% if analys.is_buyable %}
+            {% widthratio analys.price 1 1 %}
+          {% endif %}
+        </td>
+        <td>{{analys.period}}</td>
+        <td>
+          {% if analys.is_buyable %}
+            <button type="button" class="analiz_butn" onclick="increment_product({{analys.id}})">Купить</button>
+          {% endif %}
+        </td>
+      </tr>
+      <br>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% for analys in analys_list %}
+    <div class="col-12 block-mb">
+      <h2 class="Big_text mb-4" style="font-size: 20px;padding-top: 20px">{{analys.labaratory_branch.labaratory.name}}</h2>
+      <div class="row justify-content-around _text_bloc">
+        <div class="col-4"  style="text-align: center">
+          <p style="margin-bottom: initial">Цена&#160;в&#160;офисе</p>
+          <p style="text-align: center; font-size: 19px">{{analys.lab_price}} р.</p>
+        </div>
+        <div class="col-4" style="text-align: center">
+
+            <p style="margin-bottom: initial">Готовность</p>
+          <p style="text-align: center;font-size: 19px">{{analys.period}}</p>
+        </div>
+      </div>
+      <div class="row justify-content-around _text_bloc">
+        <div class="col-4"  style="text-align: center">
+            <p style="margin-bottom: initial">Цена у нас</p>
+            <p style="text-align: center;font-size: 19px">
+              {% if analys.is_buyable %}
+                {% widthratio analys.price 1 1 %} р.
+              {% endif %}
+            </p>
+
+        </div>
+        <div class="col-4" style="text-align: center">
+             <div class="row row justify-content-center">
+               {% if analys.is_buyable %}
+          <button type="button" class="btn mt-2 lotos-button" style="width: 145px; height: 44px; margin-bottom: 50px" onclick="increment_product({{analys.id}})">
+          Купить
+        </button>
+              {% endif %}
+             </div>
+        </div>
+      </div>
+    </div>
+
+  {% endfor %}
+
+<div class="container>">
+<div class="col" style="margin-top: 100px">
+
+
+  {% if branch_analys.get_samplings %}
+  <h2 style="margin-top: 100px;">Тип взятия биоматериала</h2>
+
+  {% for sampling in branch_analys.get_samplings %}
+    <h6>{{sampling.sampling.site_name}}</h6>
+  {% endfor %}
+
+  {% endif %}
+</div>
+
+  <div class="col" style="margin-top: 100px">
+
+    <div class="col-ls-7">
+      {% if branch_analys.analys.preparations %}
+        <h2>Подготовка к исследованию:</h2>
+
+        <p>
+          {{branch_analys.analys.preparations}}
+        </p>
+      {% endif %}
+    </div>
+  </div>
+  <div class="col" style="margin-top: 100px">
+    <div class="col-ls-11">
+        {% if branch_analys.analys.description %}
+        <h2>Описание анализа</h2>
+        {{branch_analys.analys.description}}
+        {% endif %}
+    </div>
+
+  </div>
+</div>
+</div>
+
+<div class="row container mt-5" style="position:relative">
+  <h2>Где сдать
+    {% if 'анализ' in branch_analys.name|lower %}
+      {{branch_analys.name|lower}}
+    {% else %}
+      анализ на {{branch_analys.name|lower}}
+    {% endif %} в {{current_city_obj.declination}}?</h2>
+</div>
+<div id='map' style='width: 100%; height: 452px; margin-top: 40px;'></div>
+
+<div class="container">
+  {% include 'futer2_2.html' %}
+</div>
+
+<script>
+
+document.title = '{{branch_analys.name}}'
+{#var meta = document.createElement('meta');#}
+{#meta.name= "Description";#}
+{#meta.content = "Сдать \"анализ на {{branch_analys.name}}\" в {{current_city_obj.declination}}" ;#}
+{#document.getElementsByTagName('head')[0].appendChild(meta);#}
+
+
+
+  mapboxgl.accessToken = 'pk.eyJ1IjoiZWdvcm92bSIsImEiOiJjanhic2F1ZDUwMTdvNDJ0bHMxOGg5NWthIn0.QL2wIcgAJIBNIz2gbpuLVQ';
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: ['{{city.longitude}}'.replace(',', '.'), '{{city.latitude}}'.replace(',', '.')],
+    zoom: 12,
+  });
+
+  map.on('load', function() {
+    map.loadImage(
+      '/static/img/images/pin.png',
+      function(error, image) {
+        if (error) throw error;
+        map.addImage('custom-marker', image);
+        // Add a new source from our GeoJSON data and
+        // set the 'cluster' option to true. GL-JS will
+        // add the point_count property to your source data.
+        map.addSource('shops', {
+          type: 'geojson',
+          data: '/load_geojson',
+        });
+        map.addLayer({
+          'id': 'shops',
+          'type': 'symbol',
+          'source': 'shops',
+          'layout': {
+            'icon-image': 'custom-marker',
+            'text-field': [
+              'format',
+              ['get', 'lab_name'],
+              {'font-scale': 1}
+            ],
+            'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
+            'text-radial-offset': 1,
+            'text-justify': 'auto',
+          }
+        });
+      });
+
+  });
+
+  map.on('click', 'shops', function(e) {
+    var coordinates = e.features[0].geometry.coordinates.slice();
+    var address = e.features[0].properties.address;
+    var take_text = e.features[0].properties.take_text;
+
+    choosedLab = e.features[0].properties.shop_name;
+    choosedShopLabId = e.features[0].properties.id;
+
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
+
+    new mapboxgl.Popup()
+      .setLngLat(coordinates)
+      .setHTML(`
+        <div class="map-popup">
+          <p class="address-text">Адрес:</p>
+          <p class="popup-text">${address}</p>
+          <p class="popup-text">График работы: Пн-Пт: 7:30-19:30 Сб: 8:30-16:00 Вс: Выходной</p>
+          <p class="take-text">${take_text}</p>
+        </div>
+      `)
+      .addTo(map);
+  });
+
+  // Change the cursor to a pointer when the mouse is over the places layer.
+  map.on('mouseenter', 'places', function() {
+    map.getCanvas().style.cursor = 'pointer';
+  });
+
+  // Change it back to a pointer when it leaves.
+  map.on('mouseleave', 'places', function() {
+    map.getCanvas().style.cursor = '';
+  });
+</script>
+
+{% endblock %}

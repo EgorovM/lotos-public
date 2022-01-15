@@ -1,0 +1,418 @@
+{% extends 'base.html' %}
+
+{% load static  %}
+
+{% block content %}
+<div class="block_ob">
+  <div class="container">
+    <h1 style="text-align: left;margin-bottom: 50px" class="Bold_text"><a>Оформление заказа</a></h1>
+    <div class="row">
+      <div class="col-lg-4 div_catal" style="background: #FFFFFF;box-shadow: 2px 4px 20px rgba(83, 83, 83, 0.1);border-radius: 10px;">
+        <h6 class="Bold_text" style="text-align: center; font-weight: 700; margin-top: 20px">Состав заказа</h6>
+        <div class="basket_but">
+          <div class="col justify-content-between mt-4">
+            {% for key,value in request.session.cart.items %}
+            <div class="row mt-4">
+              <div class="text-catalog col-8" style="font-size: 16px">{{value.name}}</div>
+              <div class="col">
+
+                <h5 class="price_zacaz"><span class="inter_analys_price" style="font-size: 16px">{{value.price}}</span>&#160;руб</h5>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <hr>
+        <div class="text-catalog" style="text-align: center">
+
+        </div>
+        <div class="col">
+          <div class="row justify-content-between">
+            <div class="col-sm-4 text-catalog_2">
+              <p>Анализы</p>
+            </div>
+            <div class="col-auto text-catalog_2" style="font-weight: 700">
+              <p id="analys_price">
+                <span id="inter_analysis_price">{{cart.analys_price}}</span>&#160;руб
+
+              </p>
+            </div>
+          </div>
+          {% for sampling in cart.get_samplings %}
+          <div class="sampling-type" data-lab={{sampling.labaratory.name}} data-price="{{sampling.price}}">
+            <div class="row justify-content-between">
+              <div class="col-sm-5 text-catalog_2" style="font-weight: normal;">
+                <p>{{sampling.sampling_type.site_name}}</p>
+              </div>
+              <div class="col-auto text-catalog_2">
+                <p style="font-weight:bold;">{{sampling.price}}&#160;руб</p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          <hr>
+          <div class="row justify-content-between">
+            <div class="col-sm-4 text-catalog_2" style="font-weight: normal; font-size: 24px">
+              <p>Итого</p>
+            </div>
+            <div class="col-auto" style="font-size: 22px">
+              <p style="font-weight:bold;" id="total_price"><span id="inter_cart_price">{{cart.total_price}}</span>&#160;руб</p>
+            </div>
+          </div>
+        </div>
+        <div class="col mb-4 text-catalog_2">
+          <div class="row">
+            <img src="../../static/img/images/placeholder%201.svg">
+            <p class="mt-3 mr-1">{{current_city_obj.name}}</p>
+          </div>
+        </div>
+        <div class="col mb-4 text-catalog_2">
+          <div class="row">
+            <div class="mt-3">
+              <img src="../../static/img/images/pharmacy%201.svg" class="mr-1">
+            </div>
+            <div class="col mb-4">
+              <div class="row">
+                <p style="margin-bottom: initial; font-size: 15px ">Медицинский офис</p>
+              </div>
+
+              <div class="row">
+                <p class="mb-2 Bold_text" style="font-size: 16px; color:#FF4078">{{lab_shop_name}} {{lab_shop.address}}</p>
+
+              </div>
+              <div class="row text-catalog_2">
+                <p style="margin-top: 20px">{{lab_shop.parse_take_text}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-lg-5 ml-lg-5" style="background: #FFFFFF;box-shadow: 2px 4px 20px rgba(83, 83, 83, 0.1);border-radius: 10px;">
+
+        <div class="div_catalog" style="width: 100%">
+          <h6 class="text-catalog_2" style="margin-left: 30px; font-weight: 700;margin-bottom: 30px">Персональные данные</h6>
+          <div class="col">
+
+        <div class="text_zacaz row justify-content-around">
+          <p class="row-4">ФИО</p>
+          <p class="row-4 inp_ord">
+              <input class="row-4 form-control form-control-sm" id="name" type="text" placeholder="Иванов Иван Иванович"></p>
+        </div>
+        <div class="text_zacaz row justify-content-around">
+          <p class="row-4" >Дата<br id="britdays"> рождения</p>
+          <p class="row-4 inp_ord"  style="position: relative; right: 16px;display: block">
+              <input class="form-control form-control-sm" id="birthday" type="text" name="date" placeholder="01-01-2001"></p>
+        </div>
+        <div class="text_zacaz row justify-content-around">
+          <p class="row-4">Телефон</p>
+          <p class="row-4 inp_ord" style="position: relative; right: 5px;">
+              <input class="form-control form-control-sm" id="telephone" type="text" placeholder="+7(999)99-99-99"></p>
+        </div>
+        <div class="text_zacaz row justify-content-around">
+          <p class="row-4">Эл.почта</p>
+          <p class="row-4 inp_ord" style="position: relative; right: 5px;">
+              <input class="form-control form-control-sm" id="email" type="email" placeholder="mail@gmail.com"></p>
+        </div>
+          <div class="text_zacaz row justify-content-around">
+            <p class="row-4">Промокод</p>
+
+              <p class="row-4 inp_ord" style="position: relative; right: 8px;">
+                <input class="form-control form-control-sm" id="promocode" type="text" placeholder="Введите промокод">
+              </p>
+            </div>
+            <div class="text_zacaz row justify-content-end">
+              <a href="#" id="activate_promocode" class="text-dark" style="text-decoration: none; font-size: 12px; font-weight: normal" onclick="getPromoCodeDiscountByText(true)">
+                Активировать промокод
+              </a>
+            </div>
+            <div class="text_zacaz row justify-content-around">
+              <div class="form-group form-check">
+                <div class="row">
+                  <div class="col-2 justify-content-start" style="margin: 0;padding: 0;max-width:40px">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1" onclick="ready()">
+                    <label class="form-check-label text_zacaz " for="exampleCheck1"></label>
+                  </div>
+                  <div class="col-10 text-check">
+                    <p>Я даю свое согласие на обработку персональных данных и соглашаюсь с Условиями использования сервиса</p>
+                  </div>
+                </div>
+                <div class="row justify-content-center">
+                  <button type="button" id="clic" class="modal-open-btn btn lotos-button" style="margin-top: 30px; margin-bottom: 50px" onclick="clickModalBtn()" disabled>Оформить заказ</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                  <div class="container" style="margin: 5px">
+
+                    <div class="modal-header" style="border-bottom: initial">
+                      <div class="col">
+                        <div class="row justify-content-center">
+                          <p style="font-weight: bold;font-size: 26px; line-height: 32px;text-align: center;color: #000000;margin-top: 43px">
+                            Проверьте верность введенных данных</p>
+                        </div>
+                        <div class="row justify-content-center">
+                          <p style="margin-top:26px; font-weight: bold">Состав заказа</p>
+                        </div>
+                      </div>
+                      <h5 class="modal-title" id="exampleModalLabel"></h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: relative;  width: 15px;height: 15px; background: #FF3122; border-radius: 50%; color:white ;">
+                        <span aria-hidden="true" style="position: absolute;top: 4px;bottom: 0; left:0;right: 0;opacity: initial">&times;</span>
+                      </button>
+                    </div>
+                    <div class="container">
+                      <div class="modal-body">
+                        {% for key,value in request.session.cart.items %}
+                        <div class="row justify-content-between mt-2">
+                          <div class="text-catalog col-9">{{value.name}}</div>
+                          <div class="col">
+                            <h5 class="price_zacaz final_analys_price" style="margin-top: initial"><span class="final_analysis_price">{% widthratio value.price 1 value.quantity %}</span> руб</h5>
+                          </div>
+                        </div>
+                        {% endfor %}
+                      </div>
+                      <div class="row justify-content-between">
+                        <div class="col-xl-5 mt-5 justify-content-around">
+                          <hr>
+
+                          <div class="row mb-4">
+                            <hr>
+                            <img src="../../static/img/images/placeholder%201.svg">
+                            <p class="Bold_text mt-3">{{current_city_obj.name}}</p>
+
+                          </div>
+                          <div class="row mb-4">
+                            <div class="mt-3">
+                              <img src="../../static/img/images/pharmacy%201.svg" class="mr-1">
+                            </div>
+                            <div class="col mb-4">
+                              <div class="row">
+                                <p style="margin-bottom: initial; font-size: 15px ">Медицинский офис</p>
+                              </div>
+
+                              <div class="row">
+                                <p class="mb-2 Bold_text" style="font-size: 16px; color:#FF4078">{{lab_shop_name}} {{lab_shop.address}}</p>
+
+
+                              </div>
+                              <div class="row">
+                                <p>{{lab_shop.parse_take_text}}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xl-5 mt-5 justify-content-between">
+                          <hr>
+
+                          <div class="col">
+
+                            <div class="row justify-content-between ml-3">
+                              <div class="col-sm-4" style="font-weight: normal;">
+                                <p>Анализы</p>
+                              </div>
+                              <div class="col-sm-4">
+                                <p style="font-weight:bold;"><span id="final_analysis_price">{{cart.analys_price}}</span>&#160;руб</p>
+                              </div>
+                            </div>
+                            {% for sampling in cart.get_samplings %}
+                            <div class="row justify-content-between ml-3 sampling-type" data-lab={{sampling.labaratory.name}} data-price="{{sampling.price}}">
+                              <div class="col-sm-4" style="font-weight: normal;">
+                                <p>{{sampling.sampling_type.site_name}}</p>
+                              </div>
+                              <div class="col-sm-4">
+                                <p style="font-weight:bold;">{{sampling.price}}&#160;руб</p>
+                              </div>
+                            </div>
+                            {% endfor %}
+                            <hr>
+                            <div class="row justify-content-between ml-3">
+                              <div class="col-sm-4" style="font-weight: normal; font-size: 24px">
+                                <p>Итого</p>
+                              </div>
+                              <div class="col-sm-4" style="font-size: 22px">
+                                <p style="font-weight:bold;"><span id="final_cart_price">{{cart.total_price}}</span>&#160;руб</p>
+                              </div>
+                            </div>
+                            <p class="text-catalog" id="promocode_text"></p>
+                            <p class="text-catalog">Сумма заказа остается с вами до посещения лаборатории</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm">
+
+                        <div class="col">
+
+                          <div class="col-12 modal-footer" style="border-top: initial">
+                            <form class="" action="{% url 'cart:ordering' %}" method="post">
+                              {% csrf_token %}
+                              <input type="text" name="lab_shop_id" value="{{lab_shop_id}}" hidden>
+                              <input name="valid-name" id="valid-name" class="row-4 form-control form-control-sm" type="text" hidden required>
+                              <input name="valid-birthday" id="valid-birthday" class="form-control form-control-sm" type="text" hidden required>
+                              <input name="valid-telephone" id="valid-telephone" class="form-control form-control-sm" type="text" hidden required>
+                              <input name="valid-email" id="valid-email" class="form-control form-control-sm" type="email" hidden required>
+                              <input name="valid-promocode" id="valid-promocode" class="form-control form-control-sm" type="text" hidden>
+                              <div class="row justify-content-center">
+                                <button name="save" type="submit" class="btn lotos-button">Заказать</button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content" style="background: #FFFFFF; border-radius: 10px;">
+                      <div class="col modal-body">
+                        <div class="row justify-content-center">
+                          <img src="{% static 'img/images/Group 33.svg' %}" style="margin-top: 30px; margin-right: 20px">
+                          <p style="margin-top: 50px" class="">Ваш заказ успешно оплачен
+                          <p></p>
+                        </div>
+                        <div class="row justify-content-center">
+                          <button type="button" class="btn lotos-button" style="margin-top: 30px;height: 44px">На главную</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script src="{% static 'js/jquery.maskedinput.min.js' %}"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      //элемент, к которому необходимо добавить маску
+      $("#birthday").mask("99-99-9999", {
+        placeholder: "дд-мм-гггг"
+      });
+    });
+    $(function() {
+      //2. Получить элемент, к которому необходимо добавить маску
+      $("#telephone").mask("+9(999) 999-9999");
+    });
+  </script>
+
+  <script type="text/javascript">
+    var name, birthday, telephone, email, promocode;
+
+    function ready() {
+      var isTurn = $('.modal-open-btn').attr('disabled');
+      $('.modal-open-btn').prop('disabled', !isTurn)
+    }
+
+    function discountElement(el, discount) {
+      var price = parseInt($(el).text());
+      var minus = discount / 100 * price;
+      var new_price = Math.ceil(price - minus);
+
+    $(el).text(new_price)
+    return new_price;
+  }
+  function discountBy(discount, name='final'){
+    var final_price = 0;
+    $(`.${name}_analys_price`).each(function(){
+      final_price += discountElement(this, discount);
+    });
+
+    $(`#${name}_cart_price`).text(parseInt($('#final_cart_price').text()) - parseInt($('#final_analysis_price').text()) + final_price);
+    $(`#${name}_analysis_price`).text(final_price);
+    if(discount != 0) $('#promocode_text').text(`Отлично, вы использовали промокод! Скидка ${discount} %!`)
+  }
+
+  function getPromoCodeDiscountByText(is_btn){
+    var text = $(`#promocode`).val();
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', `/get_promocode_by_text?promocode_text=${text}`, false);
+    xhr.send();
+
+    if (xhr.status == 200) {
+      var jsonResponse = JSON.parse(xhr.response);
+      discountBy(jsonResponse['discount']);
+
+      if(is_btn){
+        if(jsonResponse['discount'] == 0) alert('Промокод недействителен');
+        else{
+          alert('Ваша скидка составляет ' + jsonResponse['discount'] + ' %!');
+          $('#activate_promocode').hide();
+          discountBy(jsonResponse['discount'], 'inter')
+        }
+      }
+      if(!is_btn) $('#exampleModal').modal('show');
+
+    }else{
+      alert('Проверьте ваше подключение к сети')
+    }
+  }
+  function clickModalBtn() {
+    var labels = ['name', 'birthday', 'telephone', 'email'];
+    var valid = true;
+
+    for (var i = 0; i < labels.length; i++) {
+      label = labels[i];
+      var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+      if ($(`#${label}`).val() == '') {
+        valid = false;
+        alert('Заполните все поля, пожалуйста');
+        break;
+      } else if (label == 'email' && reg.test($(`#${label}`).val()) == false) {
+        valid = false;
+        alert('Неправильный email');
+        break;
+      }
+
+      $(`#valid-${label}`).val($(`#${label}`).val());
+    }
+
+    $(`#valid-promocode`).val($(`#promocode`).val());
+
+    if (valid) {
+      send_data();
+      $('#exampleModal').modal('show');
+    }
+  }
+
+  async function send_data(){
+    var analysis = [];
+    {% for key,value in request.session.cart.items %}
+      analysis.push('{{value.name}}');
+    {% endfor %}
+
+    var name = $(`#name`).val();
+    var birthday = $(`#birthday`).val();
+    var telephone = $(`#telephone`).val();
+    var email = $(`#email`).val();
+
+    let formData = new FormData()
+    formData.append('name', name);
+    formData.append('birthday', birthday);
+    formData.append('birthday', birthday);
+    formData.append('telephone', telephone);
+    formData.append('email', email);
+    formData.append('analysis', analysis.toString());
+
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', '/press_to_buy/');
+    xhr.send(formData);
+  }
+</script>
+
+<script src="https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js"></script>
+
+{% endblock %}

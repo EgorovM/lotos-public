@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="catalog-section">
+  <div style="position: relative">
+    <svg style="position: absolute;right: 0; top: 500px;" width="232" height="310" viewBox="0 0 232 310" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle opacity="0.5" cx="155" cy="155" r="140" stroke="#DFE9FD" stroke-width="30" />
+    </svg>
+    <div class="container">
+      <div class="blocOne">
+        <h1 style="text-align: left; margin-bottom: 33px" class="Bold_text"><a>Врачи</a></h1>
+        <div class="row">
+          <div class="col-lg-4 mb-4" id="doctor">
+            <div class="catalog" id="partners_caralog">
+              <table class="big_catalog" style="width: 100%;">
+                <thead class="catalog_element">
+                  <tr>
+                    <th scope="col">
+                      <a href="{% url 'other:partners' %}" class="text-dark"><h3 class="Bold_text" style="font-size: 1.3em">Специализация</h3></a>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="catalog_element_2">
+                  {% for specialization in specializations %}
+                  <tr>
+{#                    <th><a class="text-dark" href="{% url 'other:partners' %}?specialization={{specialization}}">{{specialization}}</a><hr class="line" style="margin-bottom: initial;margin-top: 2rem"></th>#}
+                    <th style="height: 58px; {% if specialization == request.GET.specialization %}background-color:#DAE5FD;{% endif %}">
+                    <div style="height: 100%;padding-top: 12px;">
+                        <a class="text-dark" href="{% url 'other:partners' %}?specialization={{specialization}}" style="padding-top: 12px;display: block;height: 100%">{{specialization}}
+                        </a>
+                          <hr class="line" style="border-top: 1px solid rgba(0,0,0,.1); margin-top: 0">
+                        </div>
+
+                </th>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+
+             <div class="dropdown">
+            <button class="drop-meny btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 20px">
+              Фильтр специалистов
+            </button>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu2" style="top: 200px;!important;width: 100%">
+              <table class="min_catalog catalog" style="border-radius: inherit; width: 100%">
+                <thead class="catalog_element">
+                  <tr>
+                    <th scope="col" >
+                      <a href="{% url 'other:partners' %}" class="text-dark"><h2>Специалисты</h2></a>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="catalog_element" style="width: 100%">
+                  {% for specialization in specializations %}
+                  <tr style="height: 58px">
+                    <th style="height: 58px; {% if specialization == request.GET.specialization %}background-color:#DAE5FD;{% endif %}">
+                         <div style="height: 100%;">
+                      <a class="text-dark" style="padding-top: 12px;display: block;height: 100%" href="{% url 'other:partners' %}?specialization={{specialization}}">{{specialization}}
+                      </a>
+                             <hr class="line"style="border-top: 1px solid rgba(0,0,0,.1); margin-top: 0" >
+                         </div>
+                    </th>
+
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+
+            </div>
+          </div>
+
+          <div class="col-lg-8 div_catalog"  style="background: white">
+            {% for partner in partners %}
+{#                href="{% url 'other:partner' partner.id %}"#}
+            <div class="div_catalog">
+              <div class="row">
+                <div class="col-lg-6 justify-content-start par-ph" >
+                    <div class="photos">
+                  <img src="/media/{{partner.image}}" style="width: 100%">
+                    </div>
+                </div>
+                <div class="col">
+
+                  <h2><a href="{% url 'other:partner' partner.specialization_en partner.name_en %}" class="partner__name">{{partner.name}}</a></h2>
+                  <div class="text-catalog row-8"><a class="text-dark"></a></div>
+
+                  <div class="row-4">
+                    <h5 class="partner__specialization" style="margin-bottom: 21px">{{partner.specialization}}</h5>
+
+                    <div class="partner__sections">{{partner.description}}</div>
+                  </div>
+                </div>
+              </div>
+              <hr>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    {% include 'futer2_2.html' %}
+  </div>
+</section>
+
+
+{% endblock %}

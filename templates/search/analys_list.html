@@ -1,0 +1,64 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"> </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+
+  </head>
+  <body>
+    <input type="text" class="form-control" id="searchForm" name="txtSearch">
+    <div id="container" style="width: 100%; background-color: #FFFFFF; padding: 0">
+    </div>
+  </body>
+
+  <script type="text/javascript" src="{% static 'js/search-form.js' %}"></script>
+  <script type="text/javascript">
+  $(document).ready(function(){
+    $('#searchForm').keyup(function () {
+      var term = $('#searchForm').val();
+      $.ajax({
+          url: `/ajax_calls/search/?term=${term}`,
+          success: function (data, textStatus) {
+            $('#container').html('');
+            data.forEach((el) => {
+              console.log(el)
+              $('#container').append(
+                `
+                <div style="padding: 26px 20px 0 20px; display: flex; justify-content: space-between; align-items: center">
+                  <span>${el.name}</span>
+                  <div style="display: flex; align-items: center;">
+                    <span>${el.price} руб</span>
+                    <a href="#" onclick="increment_product(${el.id})"><img style="margin-left: 22px" src="{% static 'img/images/cart-icon.png' %}" alt="Лотос"></a>
+                  </div>
+                </div>
+                `
+              );
+            });
+          },
+      });
+    })
+  });
+  </script>
+  <script type="text/javascript">
+    function increment_product(product_id){
+      let xhr = new XMLHttpRequest();
+      var url = "{% url 'cart:item_increment' 123 %}";
+
+      xhr.open('GET', url.replace('123', product_id));
+      xhr.send(null);
+    }
+
+    function decrement_product(product_id){
+      let xhr = new XMLHttpRequest();
+      var url = "{% url 'cart:item_decrement' 123 %}";
+
+      xhr.open('GET', url.replace('123', product_id));
+      xhr.send(null);
+    }
+  </script>
+</html>

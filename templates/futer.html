@@ -1,0 +1,29 @@
+{% load static %}
+<div class="container mt-5 mb-3">
+  <div class="row align-items-center">
+    <div class="row-4">
+      <img src="{% static 'img/images/Lotos_logo_1 1.svg' %}">
+    </div>
+    <div class="row-4 ml-auto text-futer mt-3">
+      <a class="ml-4" href="{% url 'other:coronavirus-spb' %}">Коронавирус</a>
+      <a class="ml-4" href="{% url 'analysis:catalog' current_city %}">Каталог</a>
+      <a class="ml-4" href="{% url 'other:partners' %}">Партнер</a>
+      <a class="ml-4" href="{% url 'other:about' %}">О&#160;нас</a>
+    </div>
+    <div class="Bold_text col-5 ml-auto phone-mail" style="text-align: right">
+      <a>+7 812 629-65-59</a> <br>
+      <a>info@lotoslab.ru</a>
+    </div>
+  </div>
+    <div class="row text-futer2 justify-content-center">
+    <div class="col-4 mr-4">
+      <a class="ml-4" href="{% url 'other:coronavirus-spb' %}">Коронавирус</a>
+      <a class="ml-4" href="{% url 'analysis:catalog' current_city %}">Каталог</a>
+    </div>
+         <div class="col-4 ">
+      <a class="ml-4" href="{% url 'other:partners' %}">Партнер</a>
+      <a class="ml-4" href="{% url 'other:about' %}">О&#160;нас</a>
+         </div>
+    </div>
+
+</div>

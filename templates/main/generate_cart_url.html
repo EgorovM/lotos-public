@@ -1,0 +1,133 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if title %}{{title}}{% else %} Лотос - лабораторные анализы {% endif %}</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/header_test.css' %}">
+  <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/media.css' %}">
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+
+
+  <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}" type="text/css" media="all" />
+
+  <script src="{% static 'js/jquery-1.10.2.min.js' %}" type="text/javascript"> </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  <style media="screen">
+    .plus {
+      color: black !important;
+      margin-left: 20px;
+      height: 32px;
+      width: 32px;
+      border: 1px solid black;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .plus:hover{
+      border: 1px solid #FF4078;
+      color: #FF4078 !important;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container d-flex align-items-center">
+      <nav class="count" style="position: relative">
+        <div class="topnav" id='myTopnav'>
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle city-changer-dropdown" data-toggle="dropdown" style="text-decoration: none; font-weight: bold; display: block !important">
+              {{current_city_obj.name}}
+            </a>
+            <div class="dropdown-menu">
+              {% for city in cities %}
+              {% if city.name != current_city_obj.name and city.tapable %}
+              <a class="dropdown-item" href="/cart_change_city/{{city.reversed_name}}" style="display: block !important">{{city.name}}</a>
+              {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+      <div class="poisc input-group mt-3" style="margin-bottom: 48px">
+        <input type="text" class="inp_fut" id="searchForm" name="txtSearch" placeholder="Я ищу" style="height: 52px;width: 100%">
+        <div id="container" style="width: 100%; background-color: #FFFFFF; padding: 0"></div>
+        <div class="lupa">
+          <p><svg style="margin-right:10px " width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M15.9023 14.9597L11.2545 10.3118C12.136 9.22342 12.6667 7.8398 12.6667 6.33336C12.6667 2.84116 9.82552 0 6.33333 0C2.84113 0 0 2.84116 0 6.33336C0 9.82555 2.84116 12.6667 6.33336 12.6667C7.8398 12.6667 9.22342 12.136 10.3118 11.2545L14.9597 15.9024C15.0899 16.0325 15.3009 16.0325 15.4311 15.9024L15.9024 15.4311C16.0325 15.3009 16.0325 15.0898 15.9023 14.9597ZM6.33336 11.3334C3.5762 11.3334 1.33335 9.09052 1.33335 6.33336C1.33335 3.57619 3.5762 1.33335 6.33336 1.33335C9.09052 1.33335 11.3334 3.57619 11.3334 6.33336C11.3334 9.09052 9.09052 11.3334 6.33336 11.3334Z"
+                fill="black" />
+            </svg>Найти</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <p>Перешлите клиенту: https://lotoslab.ru/fill_cart_by_url?products=[<span id="products_list"></span>]</p>
+  </div>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('#searchForm').keyup(function() {
+        var term = $('#searchForm').val();
+        if (term == '') {
+          $('#container').html('');
+          return;
+        }
+        $.ajax({
+          url: `/ajax_calls/search/?term=${term}`,
+          success: function(data, textStatus) {
+            $('#container').html('');
+            data.forEach((el) => {
+              console.log(el)
+
+              var replace_url = "{% url 'analysis:analys' current_city 1234 %}".replace('1234', el.id);
+
+              $('#container').append(
+                `
+                <div class="search-item">
+                  <a href="${replace_url}"><span>${el.name}</span></a>
+                  <div style="display: flex; align-items: center; justify-content: flex-end">
+                    <span>${el.price} руб</span>
+                    <a href="#" class="plus" onclick="add_to_url(${el.id})">+</a>
+                  </div>
+                </div>
+                `
+              );
+            });
+          },
+        });
+      })
+    });
+  </script>
+  <script type="text/javascript">
+    var products = new Set();
+    function add_to_url(product_id){
+      products.add(product_id);
+      var products_list = []
+      products.forEach((val) => {
+        products_list.push(val);
+      });
+
+      $('#products_list').html(products_list.toString());
+      $('#container').html('');
+      $('#searchForm').val('');
+    }
+  </script>
+</body>
+
+</html>

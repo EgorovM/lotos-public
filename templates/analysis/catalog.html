@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="block_ob">
+<section style="position: relative;" class="catalog-section">
+  <svg style="position: absolute;right: 0; top: 500px;" width="232" height="310" viewBox="0 0 232 310" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle opacity="0.5" cx="155" cy="155" r="140" stroke="#DFE9FD" stroke-width="30" />
+  </svg>
+  <div class="container">
+    <div class="blocOne">
+      <h1 style="text-align: left;margin-bottom: 33px" class="Bold_text"><a>Каталог</a></h1>
+
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <table class="catalog big_catalog" style="border-radius: inherit; width: 100%">
+            <thead class="catalog_element">
+              <tr>
+                <th scope="col" >
+                  <a href="{% url 'analysis:catalog' current_city %}" class="text-dark"><h2>Анализы</h2></a>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="catalog_element_2" >
+              {% for section in sections %}
+                <tr style="height: 58px">
+                  <th style="height: 58px; {% if section == request.GET.section %}background-color:#DAE5FD;{% endif %}">
+                      <div style="height: 100%;">
+                          <a href="{% url 'analysis:catalog' current_city %}?section={{section}}" class="text-dark" style="padding-top: 12px;display: block; height: 100%">{{section}}</a>
+                           <hr class="line-analiz line" style="border-top: 1px solid rgba(0,0,0,.1); margin-top: 0" >
+                      </div>
+                  </th>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+
+          <div class="dropdown">
+            <button class="drop-meny btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 20px">
+              Фильтр анализов
+            </button>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu2" style="top: 200px;!important;">
+              <table class="min_catalog catalog" style="border-radius: inherit; width: 100%">
+                <thead class="catalog_element">
+                  <tr>
+                    <th scope="col">
+                      <a href="{% url 'analysis:catalog' current_city %}" class="text-dark"><h2>Анализы</h2></a>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="catalog_element">
+                  {% for section in sections %}
+                   <tr style="height: 58px">
+                  <th style="height: 58px" style="{% if section == request.GET.section %}background-color:#DAE5FD;{% endif %}">
+                      <div style="height: 100%;">
+                          <a href="{% url 'analysis:catalog' current_city %}?section={{section}}" class="text-dark" style="padding-top: 12px;display: block;height: 100%">{{section}}
+                  </a>
+                           <hr class="line-analiz line" style="border-top: 1px solid rgba(0,0,0,.1); margin-top: 0" >
+                      </div>
+
+                  </th>
+                </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8 div_catalog">
+          {% for analys in analysis %}
+          <div class="row  justify-content-between text-catalog"  style="text-indent: 25px">
+
+            <div class="col-sm-7 text-analiz" style="font-size: 1.2em;font-weight: 600;margin-left: 5px;text-indent: initial">
+              <a  href="{% url 'analysis:analys' current_city analys.analys.name_en %}" class="text-darkk" style="display: block;min-height:81px">{{analys.name}}</a>
+            </div><br>
+            <div class="col-sm-auto" style="text-indent: initial">
+              <h5 class="price">от {{analys.minimal_price}} руб</h5>
+              <button style="height: 34px" type="button" class="btnn" onclick="increment_product({{analys.id}})">В корзину</button>
+            </div>
+          </div>
+          <hr>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    </div>
+</section>
+</div>
+
+<div class="container">
+  {% include 'futer2_2.html' %}
+</div>
+
+{% endblock %}

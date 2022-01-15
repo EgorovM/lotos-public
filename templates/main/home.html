@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <style>
+    #next{
+        display: none;
+    }
+    </style>
+    <div class="block_ob">
+<div style="position: relative">
+<svg style="position: absolute;right: 0; top: 500px;"  width="232" height="310" viewBox="0 0 232 310" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle opacity="0.5" cx="155" cy="155" r="140" stroke="#DFE9FD" stroke-width="30"/>
+</svg>
+<div class="container">
+  <div class="blocOne">
+    <div class="row">
+      <div class="col-lg">
+        <h1 style="" class="Bold_text">
+            <a>Сравни цены на анализы</a> </h1>
+        <div>
+            <h1 class="Bold_text">
+                <a>в {{current_city_obj.declination}}</a></h1>
+        </div>
+        С нами вы можете проверить здоровье
+        в надежных местах по еще более привлекательной цене!<br>
+
+        <a href="{% url 'analysis:catalog' current_city %}">
+          <button type="button" class="btn lotos-button" id="home_bottom" style="margin-top: 30px">Сравнить цены</button>
+        </a>
+      </div>
+
+      <div class="col-lg">
+          <img src="{% static 'img/frame/Frame.svg' %}" class="img_media">
+
+      </div>
+    </div>
+
+
+    <div class="row" style="margin-top: 50px">
+      <div class="col-md block">
+        <h2 class="Big_text">5 минут</h2>
+        <p class="Small_text">Понадобится для выбора места, которое подходит именно вам.</p>
+      </div>
+      <div class="col-md block">
+        <h2 class="Big_text">20%</h2>
+        <p class="Small_text">Средний размер скидки при заказе через наш сервис.</p>
+      </div>
+      <div class="col-md block">
+        <h2 class="Big_text">182</h2>
+        <p class="Small_text">Лаборатории принимают участие в сравнении.</p>
+      </div>
+
+    </div>
+
+    {% include 'futer2.html' %}
+  </div>
+</div></div>
+    </div>
+{% endblock%}

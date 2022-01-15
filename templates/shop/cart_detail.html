@@ -1,0 +1,324 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="block_ob">
+  <div id="loading"></div>
+  <div style="position: relative">
+    <svg style="position: absolute;right: 0; top: 500px;" width="232" height="310" viewBox="0 0 232 310" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle opacity="0.5" cx="155" cy="155" r="140" stroke="#DFE9FD" stroke-width="30" />
+    </svg>
+    <div class="container">
+      <div class="blocOne">
+
+        <h1 class="Bold_text" style="border-bottom: 33px">
+          <a>Корзина</a>
+        </h1>
+
+        <div class="row">
+
+          <div class="col-lg-8 div_catalog">
+            {% for key,value in request.session.cart.items %}
+            <div class="cart-item" data-lab="{{value.labaratory}}" data-price="{{value.price}}" data-matched="{{value.matched_id}}" data-matched-labs="{{value.matched_labaratories}}">
+              <div class="row justify-content-between" style="margin-top:1rem">
+                <div class="col-7 analys_name">
+                  <a class="text-darkk" href="{% url 'analysis:analys' current_city value.name_en %}" style="text-decoration: none; ">
+                    {{value.name}}
+                  </a>
+                </div>
+                <div class="col-auto" style="margin-top:8px">
+                  <a href="{% url 'cart:item_clear' key %}"><img src="../../static/img/images/close%20(1)%201.svg" class="closes"></a>
+                  <h5 class="basket_price analys_price">{{value.price}} руб</h5>
+                </div>
+              </div>
+              <hr style="margin-bottom: initial;">
+            </div>
+            {% endfor %}
+            {% for sampling in cart.get_samplings_with_labs %}
+            <div class="sampling-type mt-2" data-lab="{{sampling.labaratory.name}}" data-price="{{sampling.price}}">
+              <div class="row justify-content-between">
+                <div class="col-7 analys_name" style="font-weight: normal;">
+                  <p class="text-darkk" >{{sampling.sampling_type.site_name}}</p>
+                </div>
+                <div class="col-auto">
+                  <p class="analys_price basket_price" style="margin-right: 20px; font-weight: 500">{% widthratio sampling.price 1 1 %}&#160;руб.</p>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          <div class="col-lg-3 div_catalog" id="lab_info">
+            <h6 class="Bold_text" style="text-align: center">Выберите лабораторию</h6>
+            <div class="basket_but">
+              <div class="btn-group-toggle" data-toggle="buttons">
+                {% for labaratory in labaratory_list %}
+                <label class="btn btn-primary {% if forloop.counter == 1 %} active {% endif %}">
+                  <input class="labaratories" type="radio" onclick="tapOnLabName('{{labaratory.name}}')" data-lab="{{labaratory.name}}" autocomplete="off" {% if forloop.counter == 1 %} checked {% endif %}>
+                  {{labaratory.name}}
+                  </input>
+                </label>
+                {% endfor %}
+              </div>
+            </div>
+
+            <div class="row choose-form">
+              <div class="basket_but2" style="font-size: 12px;margin-bottom: 50px">
+                <a href="#map" style="color: black; text-decoration: none">
+                  <div>Выберите медицинский офис</div>
+                </a>
+                <div class="row justify-content-center" style="width: 100%; margin-left: initial;margin-top: 0px">
+                  <img src="../../static/img/images/Group%2026.svg"  id="med_of">
+                </div>
+              </div>
+            </div>
+
+            <div class="choosed_labaratory ml-2">
+              <div class="row mb-4">
+                <img src="../../static/img/images/placeholder%201.svg">
+                <p class="Bold_text mt-3 ml-2">{{city.name}}</p>
+
+              </div>
+              <div class="row mb-4">
+                <div class="mt-3"><img src="../../static/img/images/pharmacy%201.svg" class="mr-1"></div>
+                <div class="col mb-4 ml-2">
+                  <div class="row">
+                    <p style="margin-bottom: initial; font-size: 15px ">Медицинский офис</p>
+                  </div>
+
+                  <div class="row">
+                    <p class="mb-2 Bold_text" style="font-size: 16px; color:#FF4078" id="lab_name_label"></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr style="">
+            <div class="Bold_text" style="text-align: center">
+              <p>Ваши анализы</p>
+            </div>
+            <div class="col">
+              <div class="row justify-content-between">
+                <div class="col-4" style="font-weight: normal;">
+                  <p>Анализы</p>
+                </div>
+                <div class="col-auto">
+                  <p style="font-weight:bold;  font-size: 17px" id="analys_price">
+                    {{cart.analys_price}}&#160;руб
+                  </p>
+                </div>
+              </div>
+              <div class="row justify-content-between">
+                <div class="col-4" style="font-weight: normal;">
+                  <p>Биоматериалы</p>
+                </div>
+                <div class="col-auto">
+                  <p style="font-weight:bold;  font-size: 17px" id="analys_price">
+                    {{cart.sampling_price}}&#160;руб
+                  </p>
+                </div>
+              </div>
+              <hr>
+              <div class="row justify-content-between">
+                <div class="col-4" style="font-weight: normal; font-size: 24px">
+                  <p>Итого</p>
+                </div>
+                <div class="col-auto">
+                  <p style="font-weight:bold;" id="total_price">{{cart.total_price}}&#160;руб</p>
+                </div>
+                <form class="" action="{% url 'cart:ordering' %}" method="post" style="width: 100%">
+                  {% csrf_token %}
+                  <input id="lab_shop_name" type="text" name="lab_shop_name" hidden>
+                  <input id="lab_id_input" type="number" name="lab_shop_id" hidden>
+
+                  <div class="row mb-3 justify-content-center">
+                    <button type="submit" name="make_order" class="btn lotos-button arrange-button" style="margin-top: 30px;width: 80%;max-width: 220px;" disabled>Оформить заказ
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" style="margin-top: 110px;margin-bottom: 53px">
+    <div class="col-lg-8">
+      <h2 style="font-weight: bold;font-size: 40px;line-height: 50px;">Медицинские офисы в {{current_city_obj.declination}}</h2>
+    </div>
+  </div>
+  <div id='map' style='width: 100%; height: 452px;'></div>
+</div>
+
+<script type="text/javascript">
+  var choosedLab;
+  var choosedShopLabId;
+
+  function chooseLab() {
+  $('#lab_name_label').html(choosedLab);
+  $('.choosed_labaratory').show();
+  $('.choose-form').hide();
+  $('.arrange-button').prop('disabled', false);
+  $('#lab_id_input').val(choosedShopLabId);
+  $('#lab_shop_name').val(choosedLab);
+  }
+
+  $('.choosed_labaratory').hide();
+  </script>
+
+  <script>
+  mapboxgl.accessToken = 'pk.eyJ1IjoiZWdvcm92bSIsImEiOiJjanhic2F1ZDUwMTdvNDJ0bHMxOGg5NWthIn0.QL2wIcgAJIBNIz2gbpuLVQ';
+  var map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/streets-v11',
+  center: ['{{city.longitude}}'.replace(',', '.'), '{{city.latitude}}'.replace(',', '.')],
+  zoom: 12,
+  });
+
+  map.on('load', function() {
+  map.loadImage(
+    '/static/img/images/pin.png',
+    function(error, image) {
+      if (error) throw error;
+      map.addImage('custom-marker', image);
+      // Add a new source from our GeoJSON data and
+      // set the 'cluster' option to true. GL-JS will
+      // add the point_count property to your source data.
+      map.addSource('shops', {
+        type: 'geojson',
+        data: '/load_geojson',
+      });
+      map.addLayer({
+        'id': 'shops',
+        'type': 'symbol',
+        'source': 'shops',
+        'layout': {
+          'icon-image': 'custom-marker',
+          'text-field': [
+            'format',
+            ['get', 'lab_name'],
+            {'font-scale': 1}
+          ],
+          'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
+          'text-radial-offset': 1,
+          'text-justify': 'auto',
+        }
+      });
+    });
+
+  });
+
+  map.on('style.load', function() {
+  const waiting = () => {
+    if (map.getLayer("shops") == null) {
+      setTimeout(waiting, 400);
+    } else {
+      $('#loading').hide();
+      tapOnLabName(document.getElementsByClassName('labaratories')[0].getAttribute('data-lab'));
+    }
+  };
+  waiting();
+  });
+
+  map.on('click', 'shops', function(e) {
+  var coordinates = e.features[0].geometry.coordinates.slice();
+  var address = e.features[0].properties.address;
+  var take_text = e.features[0].properties.take_text;
+
+  choosedLab = e.features[0].properties.shop_name;
+  choosedShopLabId = e.features[0].properties.id;
+
+  while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+  }
+
+  new mapboxgl.Popup()
+    .setLngLat(coordinates)
+    .setHTML(`
+      <div class="map-popup">
+        <p class="address-text">Адрес:</p>
+        <p class="popup-text">${address}</p>
+        <p class="popup-text">График работы: Пн-Пт: 7:30-19:30 Сб: 8:30-16:00 Вс: Выходной</p>
+        <p class="take-text">${take_text}</p>
+        <a href="#lab_info">
+          <button class="btn lotos-button" name="button" onclick="chooseLab()">Выбрать</button>
+        </a>
+      </div>
+    `)
+    .addTo(map);
+  });
+
+  // Change the cursor to a pointer when the mouse is over the places layer.
+  map.on('mouseenter', 'places', function() {
+  map.getCanvas().style.cursor = 'pointer';
+  });
+
+  // Change it back to a pointer when it leaves.
+  map.on('mouseleave', 'places', function() {
+  map.getCanvas().style.cursor = '';
+  });
+  </script>
+
+
+<script type="text/javascript">
+  function disableAnalysisByLabName(name) {
+  map.setFilter('shops', ['==', 'lab_name', name]);
+
+  items = document.getElementsByClassName('cart-item');
+  var new_price = 0;
+
+  Array.prototype.forEach.call(items, function(el) {
+    if (el.getAttribute('data-lab') != name) {
+      if(el.getAttribute('data-matched') != -1){
+        el.style.display = "none";
+      }
+      el.getElementsByClassName('analys_name')[0].style.color = "grey";
+      el.getElementsByClassName('analys_price')[0].textContent = "Нет в наличии";
+      el.getElementsByClassName('analys_price')[0].style.color = "black";
+    } else {
+      if(el.getAttribute('data-matched') != -1){
+        el.style.display = "block";
+      }
+      var el_price = el.getAttribute('data-price');
+      el.getElementsByClassName('analys_name')[0].style.color = "black";
+      el.getElementsByClassName('analys_price')[0].textContent = parseInt(el_price) + ' руб.';
+      el.getElementsByClassName('analys_price')[0].style.color = "#FF4078";
+
+      new_price += parseFloat(el_price);
+    }
+  });
+
+  return parseInt(new_price);
+
+  }
+
+  function disableSamplingsByLabName(name) {
+    items = document.getElementsByClassName('sampling-type');
+    var new_price = 0;
+
+    Array.prototype.forEach.call(items, function(el) {
+      if (el.getAttribute('data-lab') != name) {
+        el.style.display = "none"
+      } else {
+        el.style.display = "block"
+        var el_price = el.getAttribute('data-price');
+
+        new_price += parseFloat(el_price);
+      }
+    });
+
+    return parseInt(new_price);
+  }
+
+  function tapOnLabName(name) {
+  analys_price = disableAnalysisByLabName(name);
+  sampling_price = disableSamplingsByLabName(name);
+
+  $('.choosed_labaratory').hide();
+  $('.choose-form').show();
+
+  document.getElementById('analys_price').textContent = analys_price + ' руб';
+  document.getElementById('total_price').textContent = analys_price + sampling_price + ' руб';
+  }
+</script>
+
+{% endblock %}

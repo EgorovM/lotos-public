@@ -1,0 +1,13 @@
+#loading {
+  display: block;
+  position: absolute;
+  z-index: 1021;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  background-image: url("https://i.pinimg.com/originals/3f/2c/97/3f2c979b214d06e9caab8ba8326864f3.gif");
+  background-repeat: no-repeat;
+  background-position: center;
+}

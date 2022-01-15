@@ -1,0 +1,204 @@
+{% load static %}
+
+<div>
+
+  <h2 style="margin-top:100px"><strong>Сдать
+      {% if branch_analys %}{% if 'анализ' in branch_analys.name|lower %}
+      {{branch_analys.name|lower}}
+      {% else %}
+      анализ на {{branch_analys.name|lower}}
+      {% endif %}
+      {% else %}
+        анализ
+      {% endif %}
+      — просто!</strong></h2>
+  <div class="row justify-content-between" style="margin-top: 50px;">
+
+    <div class="block-border col-lg block">
+      <h6 class="Bold_text_bloc">01. Сравните цены</h6>
+      <p class="Small_text_Bloc ">Выберите анализ с лучшей ценой из каталога.</p>
+      <img src="{% static 'img/images/LL_iPhone11-Mockup_Front 1.jpg' %}" class="images_fut images">
+    </div>
+    <div class="block-border col-lg block" style=" overflow : hidden;position: relative">
+      <h6 class="Bold_text_bloc">02. Выберите офис</h6>
+      <p class="Small_text_Bloc">Кликните на маркер офиса в Петербурге, в котором хотите сдать анализы</p>
+      <img src="{% static 'img/images/Mockup 1.jpg' %}" class="images_fut images">
+    </div>
+    <div class="block-border col-lg block" style=" overflow : hidden;position: relative">
+      <h6 class="Bold_text_bloc">03. Оплатите онлайн</h6>
+      <p class="Small_text_Bloc">Сразу после оплаты вам придет смс. Прийти можно будет в любой день</p>
+      <img src="{% static 'img/images/credit_card_PNG207.jpg' %}" class="images_fut images">
+    </div>
+    <div class="block-border col-lg block" style=" overflow : hidden;position: relative">
+      <h6 class="Bold_text_bloc">04. Узнайте результат</h6>
+      <p class="Small_text_Bloc">Получите результаты сданных анализов</p>
+      <img src="{% static 'img/images/1 83.jpg' %}" class="images_fut images">
+    </div>
+  </div>
+  <h2 style="margin-top: 100px; margin-bottom: 50px; position: relative">Пройдите опрос и мы<br> подберем вам список анализов</h2>
+
+  <div class="row justify-content-around">
+
+    <svg style="position: absolute;left: 0" width="204" height="310" viewBox="0 0 204 310" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle opacity="0.5" cx="49" cy="155" r="140" stroke="#DFE9FD" stroke-width="30" />
+    </svg>
+
+    <div class="interview-form">
+      <form action="{% url 'other:add_interview' %}" method="post">
+        {% csrf_token %}
+        <div class="question-form question-1">
+          <div class="question__header">
+            <p class="question__title">Ваш пол</p>
+            <p class="question__number">1/5</p>
+          </div>
+          <div class="question__body">
+            <div class="input-group">
+              <input class="checkbox" id="man-button" type="radio" name="sex" value="male" checked>
+              <label for="man-button">Мужской</label>
+            </div>
+            <div class="input-group">
+              <input class="checkbox" id="woman-button" type="radio" name="sex" value="female">
+              <label for="woman-button">Женский</label>
+            </div>
+          </div>
+          <button type="button" class="btn lotos-button" onclick="nextQuestion()" style="width: 113px;height: 37px">Далее</button>
+        </div>
+        <div class="question-form question-2">
+          <div class="question__header">
+            <p class="question__title">Ваш возраст</p>
+            <p class="question__number">2/5</p>
+          </div>
+          <div class="question__body">
+            <input type="number" name="age" value="36" id="age">
+          </div>
+          <button type="button" class="btn lotos-button" onclick="nextQuestion()" style="width: 113px;height: 37px">Далее</button>
+        </div>
+        <div class="question-form question-3">
+          <div class="question__header">
+            <p class="question__title" id="question_title3">Активный образ жизни</p>
+            <p class="question__number">3/5</p>
+          </div>
+          <div class="question__body" style="display: block !important">
+            <input type="range" class="slider" name="active_rate" value="3" min="1" max="5" step="1">
+            <div class="d-flex justify-content-between">
+              <p>1</p>
+              <p>5</p>
+            </div>
+          </div>
+          <button type="button" class="btn lotos-button" onclick="nextQuestion()" style="width: 113px;height: 37px">Далее</button>
+        </div>
+        <div class="question-form question-4">
+          <div class="question__header">
+            <p class="question__title">Ваш вес, кг</p>
+            <p class="question__number">4/5</p>
+          </div>
+          <div class="question__body">
+            <input type="number" class="window_input" name="weight" value="55">
+          </div>
+          <button type="button" class="btn lotos-button" onclick="nextQuestion()" style="width: 113px;height: 37px">Далее</button>
+        </div>
+        <div class="question-form question-5">
+          <div class="question__header">
+            <p class="question__title">Ваш рост, см</p>
+            <p class="question__number">5/5</p>
+          </div>
+          <div class="question__body">
+            <input type="number" class="window_input" name="height" value="178">
+          </div>
+          <button type="button" class="btn lotos-button" onclick="nextQuestion()" style="width: 113px;height: 37px">Далее</button>
+        </div>
+        <div class="question-form question-6">
+          <div class="question__header">
+            <p class="question__title">Ваш e-mail</p>
+            <p class="question__number"></p>
+          </div>
+          <div class="question__body">
+            <input type="email" name="email" placeholder="example@doc-hello.ru" required>
+          </div>
+          <button type="submit" name="recomendations_btn" class="btn lotos-button" style="width: 228px;height: 37px">Получить&#160;рекомендации</button>
+        </div>
+
+      </form>
+
+    </div>
+    <div class="col-lg-4 ">
+      <img src="{% static 'img/frame/home_page_2.svg' %}" class="img_media">
+    </div>
+
+  </div>
+  <div class="ml-5 mt-4 row Bold_text" id="next" style="position:relative;margin-bottom: 100px">
+    <h5 style="font-weight:700; margin-top: 9px">Найти другие анализы?</h5>
+    <a href="{% url 'analysis:catalog' current_city %}" style="text-decoration: none;">
+      <button class="ml-md-2 btn lotos-button " style="display: block;z-index: 200; width: 145px; height: 44px;">Каталог</button>
+    </a>
+  </div>
+
+
+  <div class="row" style="margin-top: 100px">
+
+    <div class="col-lg-7">
+      <h2 style="margin-top: 20px ; ">Ответы на частые вопросы </h2>
+      <div class="col">
+
+        <div class="question2">
+          <div class="question">Вернутся ли деньги, если я отменю заказ?</div>
+          <div class="text-a">Да. Если вы отмените заказ до прихода в лабораторию, мы вернем деньги вам на карту.</div>
+        </div>
+      </div>
+      <div class="col">
+
+        <div class="question2">
+          <div class="question">Почему цены ниже, чем на сайте лаборатории?</div>
+          <div class="text-a">Мы договорились с лабораториями о скидках для наших клиентов.</div>
+        </div>
+      </div>
+      <div class="col">
+
+        <div class="question2">
+          <div class="question">Защищены ли данные результатов анализов?</div>
+          <div class="text-a">Конечно. Кроме лаборатории и вас никто не сможет получить ваши данные.</div>
+        </div>
+      </div>
+      <div class="col">
+
+        <div class="question2">
+          <div class="question">Когда можно прийти в лабораторию?</div>
+          <div class="text-a">На следующий день после оплаты. Информация о вашем заказе продублируется в виде смс. В офисе вас уже ждут, достаточно сказать свою имя и фамилию.</div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="col-lg-4" id="Feedback">
+      <h4 class="Big_text">Есть дополнительные вопросы?</h4>
+      <p class="Small_text2">Оставьте свои контакты, мы перезвоним</p>
+      <form action="{% url 'other:add_question'%}" method="post">
+        {% csrf_token %}
+        <input type="text" placeholder="Введите ваше имя" class="inp" name="name">
+        <input type="text" placeholder="Введите ваш телефон" class="inp" name="telephone">
+        <button type="submit" name="question_btn" class="btn lotos-button" style="width: 100%;  margin-bottom: 20px">Перезвоните мне</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var active_question = 1;
+  var questions_count = 6;
+
+  function disableUnactiveQuestions() {
+    for (var num = 1; num <= questions_count; num++) {
+      if (num != active_question) {
+        $(`.question-${num}`).hide();
+      } else {
+        $(`.question-${num}`).show();
+      }
+    }
+  }
+
+  function nextQuestion() {
+    active_question += 1;
+    disableUnactiveQuestions();
+  }
+  disableUnactiveQuestions();
+</script>

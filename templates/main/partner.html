@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="block_ob">
+<div style="position: relative">
+  <svg style="position: absolute;right: 0; top: 500px;" width="232" height="310" viewBox="0 0 232 310" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle opacity="0.5" cx="155" cy="155" r="140" stroke="#DFE9FD" stroke-width="30" />
+  </svg>
+  <div class="container">
+    <div class="blocOne">
+      <h1><a class="Bold_text">Врачи</a></h1>
+      <div class="row">
+
+        <div class="col-lg">
+
+          <img src="/media/{{partner.image}}" style="width: 100%">
+        </div>
+
+        <div class="col-lg">
+          <h5 class="Bold_text" style="">{{partner.name}}</h5>
+          <p>{{partner.specialization}}</p>
+          <div class="Bold_text">{{partner.description}}</div>
+
+        </div>
+      </div>
+      <div class="col" style="margin-top: 50px">
+        <div class="row">
+          <h2>Список анализов</h2>
+        </div>
+        <div class="row" style="gap: 46px">
+          {% for package in partner.partnerpackage_set.all %}
+            <p class="package_name" onclick="show_package('{{package.id}}')" id="{{package.id}}" style="padding: 10px">{{package.name}}</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    {% for package in partner.partnerpackage_set.all %}
+    <div class="package_analysis" data-package='{{package.id}}'>
+      {% for section, analysis in package.get_analysis.items %}
+        <div class="row">
+          <p class="col-lg-4 Bold_text">{{section}}</p>
+          <p class="col-lg-4">{{analysis}}</p>
+        </div>
+      {% endfor %}
+
+      <h2 style="margin-top:100px">Где сдавать</h2>
+
+      <table class="table" style="text-align: center">
+        <thead>
+          <tr style="font-weight: 600;font-size: 12px">
+            <th scope="col"></th>
+            <th scope="col">Цена в<br> офисе</th>
+            <th scope="col">Цена у нас</th>
+            <th scope="col">Готовность</th>
+            <th scope="col">Приобрести</th>
+          </tr>
+        </thead>
+        <tbody style="font-size: 18px">
+          {% for lab, info in package.get_labaratories.items %}
+            <tr>
+              <th scope="row">{{lab}}</th>
+              <td>{{info.0|add:500}}</td>
+              <td>{{info.0|add:0}}</td>
+              <td>до 3</td>
+              <td><a href="{{info.1}}"><button type="button" class="analiz_butn btn-danger">Купить</button></a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% for lab, info in package.get_labaratories.items %}
+      <div class="col-12 block-mb">
+       <h2 class="Big_text mb-4" style="font-size: 20px;padding-top: 20px">{{lab}}</h2>
+        <div class="row justify-content-around _text_bloc">
+        <div class="col-4"  style="text-align: center">
+          <p style="margin-bottom: initial">Цена&#160;в&#160;офисе</p>
+            <p style="text-align: center">{{info.0|add:500}} р.</p>
+          </div>
+           <div class="col-4" style="text-align: center">
+            <p style="margin-bottom: initial">Готовность</p>
+            <p style="text-align: center">До 3 д.</p>
+          </div>
+        </div>
+        <div class="row justify-content-around _text_bloc">
+        <div class="col-4" style="text-align: center">
+            <p style="margin-bottom: initial">Цена у нас</p>
+            <p style="text-align: center">{{info.0|add:0}} р.</p>
+          </div>
+          <div class="col-4" style="text-align: center">
+            <div class="row justify-content-center">
+              <a href="{{info.1}}">
+                <button type="button" class="mt-2 btn lotos-button" style="width: 145px; height: 44px; margin-bottom: 50px">Купить</button>
+              </a>
+        </div>
+
+          </div>
+        </div>
+
+{#        <div class="row row justify-content-center"> #}
+{#            <button type="button" class="btn lotos-button" style="width: 145px; height: 44px; margin-bottom: 50px">Купить</button>#}
+{#        </div>#}
+
+      </div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+
+  </div>
+</div>
+  <div class="container">
+    {% include 'futer2.html'%}
+  </div>
+
+</div>
+
+<script type="text/javascript">
+  function show_package(name) {
+    $('.package_name').css('color', '5E5E5E');
+    console.log('#' + name)
+    $('#' + name).css('color', 'FF4178');
+
+    items = document.getElementsByClassName('package_analysis');
+
+    Array.prototype.forEach.call(items, function(el) {
+      if (el.getAttribute('data-package') != name) {
+        el.style.display = "none";
+      } else {
+        el.style.display = "block";
+      }
+    });
+  }
+
+  show_package($('.package_name')[0].id);
+</script>
+{% endblock %}

@@ -1,0 +1,806 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  . {
+      {
+      current_city_obj.name
+    }
+  }
+
+    {
+    display: list-item;
+  }
+
+  @media screen and (max-width:991px) {
+    .table {
+      display: none;
+    }
+  }
+</style>
+<div style="position: relative">
+  <svg style="position: absolute;right: 0;top: 500px;" width="232" height="310" viewBox="0 0 232 310" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle opacity="0.5" cx="155" cy="155" r="140" stroke="#DFE9FD" stroke-width="30" />
+  </svg>
+  <div class="container">
+    <div class="blocOne">
+      <div class="row">
+        <div class="col-lg-5">
+          <h1 class="Bold_text"><a>Тест коронавирус.
+              <br>
+              {{city.name}}</a>
+          </h1>
+          С нами вы можете проверить здоровье в надежных местах по еще более привлекательной цене!<br>
+          <button type="button" class="btn lotos-button" style="margin-top: 30px">Сравнить цены</button>
+        </div>
+
+        <div class="col-lg-7">
+          <img src="../../static/img/images/OBJECTS.svg" style="width: 100%;margin-left: 12%">
+        </div>
+      </div>
+      <div class="row" style="margin-top: 40px">
+        <div class="col-lg">
+          <h2>Что показывает анализ на антитела к коронавирусу?</h2>
+          С нами вы можете проверить здоровье в надежных местах по еще более привлекательной цене!<br>
+        </div>
+
+        <div class="col-sm">
+
+        </div>
+      </div>
+      <h5 style="margin-top: 100px">Отличие антител к коронавирусу IgA, IgG и IgM</h5>
+      <div class="row" style="margin-top: 50px">
+
+        <div class="col-lg block">
+          <h2 class="Big_text">IgM</h2>
+          <p class="Small_text">Самые ранние антитела
+            показывают, что заболевание протекает прямо сейчас.
+            Их уровень снижается через 1,5-3 месяца</p>
+        </div>
+        <div class="col-lg block">
+          <h2 class="Big_text">IgA</h2>
+          <p class="Small_text">Вырабатываются в период инфекции.
+            Защищают слизистые оболочки.
+            Вырабатываются строго на коронавирус.
+            Их уровень снижается через 1,5-2 месяца</p>
+        </div>
+        <div class="col-lg block">
+          <h2 class="Big_text">IgG</h2>
+          <p class="Small_text">Вырабатываются последними (через 5-6 недель).
+            Архив памяти перенесенных инфекций. Остаются навсегда или исчезают через несколько лет</p>
+        </div>
+
+      </div>
+
+      {% if city_name == 'Санкт-Петербург' %}
+
+      <table class="table" style="text-align: left; margin-top: 40px">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Тип антител</th>
+            <th scope="col">Цена в<br> офисе</th>
+            <th scope="col">Цена у нас</th>
+            <th scope="col">Готовность</th>
+            <th scope="col">Приобрести</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Инвинтро</td>
+            <td>IgG+IgM</td>
+            <td>1900 р</td>
+            <td>1520 р</td>
+            <td>3 д</td>
+            <td><button type="button" class="analiz_butn" onclick="increment_product()">Купить</button></td>
+          </tr>
+          <tr>
+            <td>Лаборатория-партнёр</td>
+            <td>IgG</td>
+            <td>1600 р</td>
+            <td>750 р</td>
+            <td>2 д</td>
+            <td><button type="button" class="analiz_butn" onclick="increment_product()">Купить</button></td>
+          </tr>
+          <tr>
+            <td>Гемотест</td>
+            <td>IgG+IgM</td>
+            <td>1800 р</td>
+            <td></td>
+            <td>2 д</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Ситилаб</td>
+            <td>IgG+IgM</td>
+            <td>1800 р</td>
+            <td></td>
+            <td>2 д</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>КДЛ</td>
+            <td>IgG+IgM</td>
+            <td>1800 р</td>
+            <td></td>
+            <td>2 д</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Лабстори</td>
+            <td>IgG</td>
+            <td>1400 р</td>
+            <td></td>
+            <td>2 д</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Labquest</td>
+            <td>IgA+IgG</td>
+            <td>2900 р</td>
+            <td></td>
+            <td>1 д</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+      {% else %}
+      <table class="table" style="text-align: left; margin-top: 40px">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Тип антител</th>
+            <th scope="col">Цена в<br> офисе</th>
+            <th scope="col">Цена у нас</th>
+            <th scope="col">Готовность</th>
+            <th scope="col">Приобрести</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Инвинтро</td>
+            <td>IgG+IgM</td>
+            <td>1900 р</td>
+            <td>1520 р</td>
+            <td>До 3 д</td>
+            <td><button type="button" class="analiz_butn" onclick="increment_product({{invitro_code}})">Купить</button></td>
+          </tr>
+          <tr>
+            <td>Лаборатория-партнёр</td>
+            <td>IgG</td>
+            <td>1600 р</td>
+            <td>750 р</td>
+            <td>2 д</td>
+            <td><button type="button" class="analiz_butn" onclick="increment_product({{helix_code}})">Купить</button></td>
+          </tr>
+          <tr>
+            <td>Гемотест</td>
+            <td>IgG+IgM</td>
+            <td>1800 р</td>
+            <td></td>
+            <td>2 д</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Ситилаб</td>
+            <td>IgG+IgM</td>
+            <td>1800 р</td>
+            <td></td>
+            <td>2 д</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>КДЛ</td>
+            <td>IgG+IgM</td>
+            <td>1890 р</td>
+            <td></td>
+            <td>2 д</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Сhromolab</td>
+            <td>IgG+IgM</td>
+            <td>2400 р</td>
+            <td></td>
+            <td>2 д</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Днком</td>
+            <td>IgG+IgM</td>
+            <td>1700 р</td>
+            <td></td>
+            <td>2 д</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Dialab</td>
+            <td>IgG+IgM</td>
+            <td>1900 р</td>
+            <td></td>
+            <td>2 д</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Labquest</td>
+            <td>IgG+IgM</td>
+            <td>2650 р</td>
+            <td></td>
+            <td>1 д</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Cmd</td>
+            <td>gG</td>
+            <td>1450 р</td>
+            <td></td>
+            <td>2 д</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+      {% endif %}
+
+      {% if city_name == 'Санкт-Петербург' %}
+      <div>
+        <div class="col-12 block-mb">
+          <h2 class="Big_text" style="padding-top: 20px">Инвитро</h2>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Тип антител</p>
+              <p>IgG+IgM</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Готовность</p>
+              <p>До 3 д</p>
+            </div>
+          </div>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Цена в офисе</p>
+              <p>1900 р</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Цена у нас</p>
+              <p>1520 р</p>
+            </div>
+          </div>
+
+          <div class="row row justify-content-center">
+            <button onclick="increment_product({{invitro_code}})" type="button" class="btn lotos-button" style="width: 145px; height: 44px; margin-bottom: 50px">Купить</button>
+          </div>
+        </div>
+        <div class="col-12 block-mb">
+          <h2 class="Big_text" style="padding-top: 20px">Лаборатория-партнёр</h2>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Тип антител</p>
+              <p>IgG</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Готовность</p>
+              <p>2 д</p>
+            </div>
+          </div>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Цена в офисе</p>
+              <p>1600 р</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Цена у нас</p>
+              <p>750 р</p>
+            </div>
+          </div>
+
+          <div class="row row justify-content-center">
+            <button onclick="increment_product({{helix_code}})" type="button" class="btn lotos-button" style="width: 145px; height: 44px; margin-bottom: 50px">Купить</button>
+          </div>
+
+        </div>
+
+        <div class="col-12 block-mb">
+          <h2 class="Big_text" style="padding-top: 20px">Гемотест</h2>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Тип антител</p>
+              <p>IgG+IgM</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Готовность</p>
+              <p>2 д</p>
+            </div>
+          </div>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Цена в офисе</p>
+              <p>1800 р</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Цена у нас</p>
+              <p></p>
+            </div>
+          </div>
+          <div class="row row justify-content-center">
+
+          </div>
+        </div>
+
+        <div class="col-12 block-mb">
+          <h2 class="Big_text" style="padding-top: 20px">Ситилаб</h2>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Тип антител</p>
+              <p>IgG+IgM</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Готовность</p>
+              <p>2 д</p>
+            </div>
+          </div>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Цена в офисе</p>
+              <p>1800 р</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Цена у нас</p>
+              <p></p>
+            </div>
+          </div>
+          <div class="row row justify-content-center">
+
+          </div>
+        </div>
+
+        <div class="col-12 block-mb">
+          <h2 class="Big_text" style="padding-top: 20px">КДЛ</h2>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Тип антител</p>
+              <p>IgG+IgM</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Готовность</p>
+              <p>2 д</p>
+            </div>
+          </div>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Цена в офисе</p>
+              <p>1800 р</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Цена у нас</p>
+              <p></p>
+            </div>
+          </div>
+          <div class="row row justify-content-center">
+
+          </div>
+        </div>
+
+        <div class="col-12 block-mb">
+          <h2 class="Big_text" style="padding-top: 20px">Лабстори</h2>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Тип антител</p>
+              <p>IgG</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Готовность</p>
+              <p>2 д</p>
+            </div>
+          </div>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Цена в офисе</p>
+              <p>1400 р</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Цена у нас</p>
+              <p></p>
+            </div>
+          </div>
+          <div class="row row justify-content-center">
+
+          </div>
+        </div>
+
+        <div class="col-12 block-mb">
+          <h2 class="Big_text" style="padding-top: 20px">Labquest</h2>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Тип антител</p>
+              <p>IgA+IgG</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Готовность</p>
+              <p>1 д</p>
+            </div>
+          </div>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Цена в офисе</p>
+              <p>2900 р</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Цена у нас</p>
+              <p></p>
+            </div>
+          </div>
+          <div class="row row justify-content-center">
+
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <div>
+        <div class="col-12 block-mb">
+          <h2 class="Big_text" style="padding-top: 20px">Инвитро</h2>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Тип антител</p>
+              <p>IgG+IgM</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Готовность</p>
+              <p>3 д</p>
+            </div>
+          </div>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Цена в офисе</p>
+              <p>1900 р</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Цена у нас</p>
+              <p>1520 р</p>
+            </div>
+          </div>
+
+          <div class="row row justify-content-center">
+            <button type="button" class="btn lotos-button" style="width: 145px; height: 44px; margin-bottom: 50px">Купить</button>
+          </div>
+        </div>
+        <div class="col-12 block-mb">
+          <h2 class="Big_text" style="padding-top: 20px">Лаборатория-партнёр</h2>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Тип антител</p>
+              <p>IgG</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Готовность</p>
+              <p>2 д</p>
+            </div>
+          </div>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Цена в офисе</p>
+              <p>1600 р</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Цена у нас</p>
+              <p>750 р</p>
+            </div>
+          </div>
+
+          <div class="row row justify-content-center">
+            <button type="button" class="btn lotos-button" style="width: 145px; height: 44px; margin-bottom: 50px">Купить</button>
+          </div>
+
+        </div>
+
+        <div class="col-12 block-mb">
+          <h2 class="Big_text" style="padding-top: 20px">Гемотест</h2>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Тип антител</p>
+              <p>IgG+IgM</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Готовность</p>
+              <p>2 д</p>
+            </div>
+          </div>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Цена в офисе</p>
+              <p>1800 р</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Цена у нас</p>
+              <p></p>
+            </div>
+          </div>
+          <div class="row row justify-content-center">
+
+          </div>
+        </div>
+
+        <div class="col-12 block-mb">
+          <h2 class="Big_text" style="padding-top: 20px">Ситилаб</h2>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Тип антител</p>
+              <p>IgG+IgM</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Готовность</p>
+              <p>2 д</p>
+            </div>
+          </div>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Цена в офисе</p>
+              <p>1800 р</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Цена у нас</p>
+              <p></p>
+            </div>
+          </div>
+          <div class="row row justify-content-center">
+
+          </div>
+        </div>
+
+        <div class="col-12 block-mb">
+          <h2 class="Big_text" style="padding-top: 20px">КДЛ</h2>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Тип антител</p>
+              <p>IgG+IgM</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Готовность</p>
+              <p>2 д</p>
+            </div>
+          </div>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Цена в офисе</p>
+              <p>1800 р</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Цена у нас</p>
+              <p></p>
+            </div>
+          </div>
+          <div class="row row justify-content-center">
+
+          </div>
+        </div>
+
+        <div class="col-12 block-mb">
+          <h2 class="Big_text" style="padding-top: 20px">Сhromolab</h2>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Тип антител</p>
+              <p>IgG+lgM</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Готовность</p>
+              <p>2 д</p>
+            </div>
+          </div>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Цена в офисе</p>
+              <p>2400 р</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Цена у нас</p>
+              <p></p>
+            </div>
+          </div>
+          <div class="row row justify-content-center">
+
+          </div>
+        </div>
+
+        <div class="col-12 block-mb">
+          <h2 class="Big_text" style="padding-top: 20px">Днком</h2>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Тип антител</p>
+              <p>IgA+IgG</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Готовность</p>
+              <p>2 д</p>
+            </div>
+          </div>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Цена в офисе</p>
+              <p>1700 р</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Цена у нас</p>
+              <p></p>
+            </div>
+          </div>
+          <div class="row row justify-content-center">
+
+          </div>
+        </div>
+
+        <div class="col-12 block-mb">
+          <h2 class="Big_text" style="padding-top: 20px">Dialab</h2>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Тип антител</p>
+              <p>IgA+IgG</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Готовность</p>
+              <p>2 д</p>
+            </div>
+          </div>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Цена в офисе</p>
+              <p>1900 р</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Цена у нас</p>
+              <p></p>
+            </div>
+          </div>
+          <div class="row row justify-content-center">
+
+          </div>
+        </div>
+        <div class="col-12 block-mb">
+          <h2 class="Big_text" style="padding-top: 20px">Labquest</h2>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Тип антител</p>
+              <p>IgA+IgG</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Готовность</p>
+              <p>1 д</p>
+            </div>
+          </div>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Цена в офисе</p>
+              <p>2650 р</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Цена у нас</p>
+              <p></p>
+            </div>
+          </div>
+          <div class="row row justify-content-center">
+
+          </div>
+        </div>
+
+        <div class="col-12 block-mb">
+          <h2 class="Big_text" style="padding-top: 20px">Cmd</h2>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Тип антител</p>
+              <p>IgG</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Готовность</p>
+              <p>3 д</p>
+            </div>
+          </div>
+          <div class="row justify-content-around">
+            <div class="col-4">
+              <p style="margin-bottom: initial">Цена в офисе</p>
+              <p>1450 р</p>
+            </div>
+            <div class="col-4" style="text-align: right">
+              <p style="margin-bottom: initial">Цена у нас</p>
+              <p></p>
+            </div>
+          </div>
+          <div class="row row justify-content-center">
+
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+
+      <h2>Где сдать анализ на антитела к коронавирусу в {{city_name_sk}}?</h2>
+
+      <div id='map' style='width: 100%; height: 452px;'></div>
+
+      {% include 'futer_corona.html' %}
+
+    </div>
+  </div>
+</div>
+
+
+<script>
+  mapboxgl.accessToken = 'pk.eyJ1IjoiZWdvcm92bSIsImEiOiJjanhic2F1ZDUwMTdvNDJ0bHMxOGg5NWthIn0.QL2wIcgAJIBNIz2gbpuLVQ';
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: ['{{city.longitude}}'.replace(',', '.'), '{{city.latitude}}'.replace(',', '.')],
+    zoom: 12,
+  });
+
+  map.on('load', function() {
+    map.loadImage(
+      '/static/img/images/pin.png',
+      function(error, image) {
+        if (error) throw error;
+        map.addImage('custom-marker', image);
+        // Add a new source from our GeoJSON data and
+        // set the 'cluster' option to true. GL-JS will
+        // add the point_count property to your source data.
+        map.addSource('shops', {
+          type: 'geojson',
+          data: '/load_geojson_by_city_id/{{city.id}}',
+        });
+        map.addLayer({
+          'id': 'shops',
+          'type': 'symbol',
+          'source': 'shops',
+          'layout': {
+            'icon-image': 'custom-marker',
+            'text-field': [
+              'format',
+              ['get', 'lab_name'],
+              {
+                'font-scale': 1
+              }
+            ],
+            'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
+            'text-radial-offset': 1,
+            'text-justify': 'auto',
+          }
+        });
+      });
+
+  });
+
+  map.on('click', 'shops', function(e) {
+    var coordinates = e.features[0].geometry.coordinates.slice();
+    var address = e.features[0].properties.address;
+    var take_text = e.features[0].properties.take_text;
+    var lab_name = e.features[0].properties.lab_name;
+
+    choosedLab = e.features[0].properties.shop_name;
+    choosedShopLabId = e.features[0].properties.id;
+
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
+
+    new mapboxgl.Popup()
+      .setLngLat(coordinates)
+      .setHTML(`
+        <div class="map-popup">
+          <p class="address-text">Адрес:</p>
+          <p class="popup-text">${address}</p>
+          <p class="popup-text">График работы: Пн-Пт: 7:30-19:30 Сб: 8:30-16:00 Вс: Выходной</p>
+          <p class="take-text">${take_text}</p>
+        </div>
+      `)
+      .addTo(map);
+  });
+
+  // Change the cursor to a pointer when the mouse is over the places layer.
+  map.on('mouseenter', 'places', function() {
+    map.getCanvas().style.cursor = 'pointer';
+  });
+
+  // Change it back to a pointer when it leaves.
+  map.on('mouseleave', 'places', function() {
+    map.getCanvas().style.cursor = '';
+  });
+</script>
+
+
+{% endblock %}

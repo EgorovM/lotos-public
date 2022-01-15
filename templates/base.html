@@ -1,0 +1,257 @@
+{% load static %}
+
+<html>
+
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KBXNFDN');</script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>{% if title %}{{title}}{% else %} Лотос - лабораторные анализы {% endif %}</title>
+  {% if branch_analys %}
+    <meta name="keywords" content="{{branch_analys.name}}, {{branch_analys.analys.synonyms_rus}}, {{branch_analys.analys.synonyms_eng}}">
+    <meta name="Description" content='Сдать "анализ на {{branch_analys.name}} в {{current_city_obj.declination}}"'>
+  {% endif %}
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/header_test.css' %}">
+  <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/media.css' %}">
+  <link rel="stylesheet" href="{% static 'css/loading.css' %}">
+
+    <link rel="icon" href="{% static 'img/images/lotus_favico.ico' %}" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+
+
+  <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}" type="text/css" media="all" />
+
+  <script src="{% static 'js/jquery-1.10.2.min.js' %}" type="text/javascript"> </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+
+  <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
+
+  <style>.tinkoffPayRow{display:block;margin:1%;width:160px;}</style>
+
+</head>
+
+<body>
+{#!-- Google Tag Manager (noscript) -->#}
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBXNFDN"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+  <header>
+    <div class="container d-flex align-items-center" >
+        <a href="/">
+          <img src="{% static 'img/images/Lotos_logo_1 1.svg' %}" class="Logo">
+
+        </a>
+
+      <nav class="count" style="position: relative">
+      <div class="first-basket" id="fut" style="position: absolute; right: 0; margin-right:70px;margin-top: 9px">
+            {% include 'basket.html'%}
+          </div>
+        <div class="topnav" id='myTopnav'>
+          <div class="first-basket">
+            {% include 'basket.html'%}
+          </div>
+          <div class="dropdown">
+            <a href="#"  class="dropdown-toggle city-changer-dropdown" data-toggle="dropdown" style="text-decoration: none; font-weight: bold">
+              {{current_city_obj.name}}
+            </a>
+            <div class="dropdown-menu">
+              {% for city in cities %}
+                {% if city.name != current_city_obj.name and city.tapable %}
+                  <a class="dropdown-item" href="/cart_change_city/{{city.reversed_name}}">{{city.name}}</a>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+          <div class="nav-links">
+            <div class="dropdown">
+              <a href="#" class="dropdown-toggle korona-changer city-changer-dropdown" data-toggle="dropdown" style="text-decoration: none; font-weight: bold">
+                Коронавирус
+              </a>
+               <div class="dropdown-menu">
+                  <a class="dropdown-item"  href="{% url 'other:coronavirus-spb' %}">Санкт-Петербург</a>
+                  <a class="dropdown-item"  href="{% url 'other:coronavirus-moskva' %}">Москва</a>
+                </div>
+            </div>
+            <a class="" href="{% url 'analysis:catalog' current_city %}">Каталог</a>
+            <a class="" href="{% url 'other:partners' %}">Партнеры</a>
+            <a class="" href="{% url 'other:about' %}">О&#160;нас</a>
+          </div>
+          <div class="second-basket">
+            {% include 'basket.html'%}
+          </div>
+
+        <div id="myTopnavv">
+          <a href="#" id='menu' class="icon">
+              <img src="{% static 'img/images/open-menu (3) 1.svg' %}" onclick=imgchange(this,"{% static 'img/images/open-menu (3) 1.svg' %}","{% static 'img/images/Group 45.svg' %}")></a>
+{#              <img src="{% static 'img/images/Group 45.svg' %}"></a>#}
+        </div>
+        </div>
+      </nav>
+    </div>
+    <div class="container">
+      <div class="poisc input-group mt-3" style="margin-bottom: 48px">
+        <input type="text" class="inp_fut" id="searchForm" name="txtSearch" placeholder="Я ищу" style="height: 52px;width: 100%">
+          <div id="container" style="width: 100%; background-color: #FFFFFF; padding: 0"></div>
+          <div class="lupa"><p>
+              <svg style="margin-right:10px " width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M15.9023 14.9597L11.2545 10.3118C12.136 9.22342 12.6667 7.8398 12.6667 6.33336C12.6667 2.84116 9.82552 0 6.33333 0C2.84113 0 0 2.84116 0 6.33336C0 9.82555 2.84116 12.6667 6.33336 12.6667C7.8398 12.6667 9.22342 12.136 10.3118 11.2545L14.9597 15.9024C15.0899 16.0325 15.3009 16.0325 15.4311 15.9024L15.9024 15.4311C16.0325 15.3009 16.0325 15.0898 15.9023 14.9597ZM6.33336 11.3334C3.5762 11.3334 1.33335 9.09052 1.33335 6.33336C1.33335 3.57619 3.5762 1.33335 6.33336 1.33335C9.09052 1.33335 11.3334 3.57619 11.3334 6.33336C11.3334 9.09052 9.09052 11.3334 6.33336 11.3334Z" fill="black"/>
+</svg>Найти</p></div>
+      </div>
+    </div>
+  </header>
+
+  {% block content %}
+  {% endblock %}
+
+  {% include 'futer.html' %}
+
+  <script type="text/javascript">
+
+        var x=false
+
+  function imgchange(obj,imgX,imgY) {
+   if  (x){
+   obj.src=imgX
+   } else {
+   obj.src=imgY
+   }
+  x=!x
+ }
+
+
+
+     function a(){
+        document.getElementById('fut').style.visibility = 'hidden';
+      }
+
+     let isVisible = true;
+      const div = document.getElementById('fut');
+
+      function trigger() {
+        isVisible = !isVisible;
+        div.style.display = isVisible ? "block" : "none";
+      };
+
+
+      document
+        .getElementById('myTopnavv')
+        .addEventListener('click', trigger);
+
+
+    $(document).ready(function() {
+      var init_item_count = {{cart_item_count}};
+      if(init_item_count != 0) changeCartText(init_item_count);
+
+      $('#searchForm').keyup(function() {
+        var term = $('#searchForm').val();
+        if (term == '') {
+          $('#container').html('');
+          return;
+        }
+        $.ajax({
+          url: `/ajax_calls/search/?term=${term}`,
+          success: function(data, textStatus) {
+            $('#container').html('');
+            data.forEach((el) => {
+              console.log(el)
+
+              var replace_url = "{% url 'analysis:analys' current_city 1234 %}".replace('1234', el.name_en);
+
+              $('#container').append(
+                `
+              <div class="search-item">
+                <a href="${replace_url}"><span>${el.name}</span></a>
+                <div style="display: flex; align-items: center; justify-content: flex-end">
+                  <span>${el.price} руб</span>
+                  <a href="#" onclick="increment_product(${el.branch_id})" >
+                  <img id="basket_icon" style="margin-left: 22px" src="{% static 'img/images/cart-icon.svg' %}" alt="Лотос"
+                  onmouseover=imgchange(this,"{% static 'img/images/cart-icon.svg' %}","{% static 'img/images/basret-red.svg' %}")
+                  onmouseout=imgchange(this,"{% static 'img/images/cart-icon.svg' %}","{% static 'img/images/basret-red.svg' %}")></a>
+                </div>
+              </div>
+              `
+              );
+            });
+          },
+        });
+      })
+    });
+
+    $(document).click(function(e) {
+     $('#container').html('');
+    });
+    $('#container').click(function(e) {
+      e.stopPropagation();
+    });
+  </script>
+  <script type="text/javascript">
+    function changeCartText(x) {
+      // $('.cart_number_circle').css('display', 'block !important')
+      var num = parseInt(x);
+
+
+
+
+      var circles = document.getElementsByClassName('cart_number_circle');
+
+      Array.prototype.forEach.call(circles, function(el) {
+        el.style.display = num > 0 ? 'block' : 'none'
+
+      });
+       {# if (x++){#}
+       {#      $(".myImg").animate({height: "50px", width: "50px"},)#}
+       {#$(".myImg").animate({height: "32px", width: "35px"},)#}
+       {# }#}
+
+      if (x >= 10) {
+
+        $('.cart-item-count')[0].setAttribute('x', 19);
+        $('.cart-item-count')[1].setAttribute('x', 19);
+        $('.cart-item-count')[2].setAttribute('x', 19);
+      }
+
+      $('.cart-item-count')[0].textContent = num;
+      $('.cart-item-count')[1].textContent = num;
+      $('.cart-item-count')[2].textContent = num;
+    }
+
+
+    function increment_product(product_id) {
+      let xhr = new XMLHttpRequest();
+      var url = "{% url 'cart:item_increment' 123 %}";
+      xhr.open('GET', url.replace('123', product_id));
+
+      xhr.onload = function() {
+        changeCartText(xhr.responseText);
+
+        $(".myImg").animate({height: "50px", width: "50px"},)
+       $(".myImg").animate({height: "32px", width: "35px"},)
+      }
+      xhr.send(null);
+    }
+
+    function decrement_product(product_id) {
+      let xhr = new XMLHttpRequest();
+      var url = "{% url 'cart:item_decrement' 123 %}";
+
+      xhr.open('GET', url.replace('123', product_id));
+      xhr.send(null);
+    }
+  </script>
+  <script src="{% static 'js/script.js' %}"></script>
+</body>
+
+</html>
